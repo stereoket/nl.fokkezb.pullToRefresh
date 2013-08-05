@@ -1,10 +1,11 @@
 var args = arguments[0] || {};
 
 var options = {
-	msgPull : L('ptrPull', 'Pull to refresh...'),
-	msgRelease : L('ptrRelease', 'Release to refresh...'),
-	msgUpdating : L('ptrUpating', 'Updating...'),
-	height : 50
+	msgPull: L('ptrPull', 'Pull to refresh...'),
+	msgRelease: L('ptrRelease', 'Release to refresh...'),
+	msgUpdating: L('ptrUpating', 'Updating...'),
+	lastUpdated: L('ptrLastUpdated', 'Last Updated: '),
+	height: 50
 };
 
 var attached = false;
@@ -27,9 +28,9 @@ function show(msg) {
 	$.ptrIndicator.show();
 
 	__parentSymbol.setContentInsets({
-		top : options.height
+		top: options.height
 	}, {
-		animated : true
+		animated: true
 	});
 
 	return true;
@@ -42,16 +43,16 @@ function hide() {
 	}
 
 	__parentSymbol.setContentInsets({
-		top : 0
+		top: 0
 	}, {
-		animated : true
+		animated: true
 	});
 
 	$.ptrIndicator.hide();
 	$.ptrArrow.transform = Ti.UI.create2DMatrix();
 	$.ptrArrow.show();
 	$.ptrText.text = options.msgPull;
-
+	$.ptrLastUpdated.text = options.lastUpdated + formatDate();
 	pulled = false;
 	loading = false;
 
@@ -84,8 +85,8 @@ function scrollListener(e) {
 		pulling = false;
 		var unrotate = Ti.UI.create2DMatrix();
 		$.ptrArrow.animate({
-			transform : unrotate,
-			duration : 180
+			transform: unrotate,
+			duration: 180
 		});
 		$.ptrText.text = options.msgPull;
 
@@ -93,8 +94,8 @@ function scrollListener(e) {
 		pulling = true;
 		var rotate = Ti.UI.create2DMatrix().rotate(180);
 		$.ptrArrow.animate({
-			transform : rotate,
-			duration : 180
+			transform: rotate,
+			duration: 180
 		});
 		$.ptrText.text = options.msgRelease;
 	}
@@ -114,12 +115,12 @@ function setOptions(_properties) {
 }
 
 function attach() {
-	
+
 	if (attached) {
 		return false;
 	}
-	
-	__parentSymbol.headerPullView = $.ptr;	
+
+	__parentSymbol.headerPullView = $.ptr;
 
 	init();
 
@@ -131,7 +132,7 @@ function init() {
 	__parentSymbol.addEventListener('dragEnd', dragEndListener);
 
 	$.ptrText.text = options.msgPull;
-	
+
 	attached = true;
 	pulling = false;
 	pulled = false;
@@ -156,6 +157,19 @@ function dettach() {
 	attached = false;
 
 	return true;
+}
+
+function formatDate() {
+	var date = new Date();
+	var m = date.getMonth() + 1;
+	var datestr = date.getDate() + '/' + m + '/' + date.getFullYear();
+
+	if (date.getHours() >= 12) {
+		datestr += ' ' + (date.getHours() == 12 ? date.getHours() : date.getHours() - 12) + ':' + date.getMinutes() + ' PM';
+	} else {
+		datestr += ' ' + date.getHours() + ':' + date.getMinutes() + ' AM';
+	}
+	return datestr;
 }
 
 delete args.__parentSymbol;

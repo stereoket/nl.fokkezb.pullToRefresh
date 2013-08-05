@@ -33,3 +33,13 @@
     	fontWeight: 'bold'
     }
 }
+
+".ptrSmallText": {
+	top: 40,
+
+	color: '#777',
+    font: {
+    	fontSize: 13,
+    	fontWeight: 'normal'
+    }
+}

@@ -5,6 +5,7 @@
 	 			<ImageView id="ptrArrow" class="ptrArrow" />
 				<ActivityIndicator id="ptrIndicator" class="ptrIndicator" />
 				<Label id="ptrText" class="ptrText" />
+				<Label id="ptrLastUpdated" class="ptrSmallText" />
 			</View>
 		</View>
 	</HeaderPullView>
