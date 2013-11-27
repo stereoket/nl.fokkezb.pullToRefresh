@@ -8,6 +8,8 @@ Also take a look at my [Infinite Scroll](https://github.com/FokkeZB/nl.fokkezb.i
 ## Overview
 The widgets adds a *HeaderPullView* to a *TableView* that is shown when the users drags the view down when it is already scrolled to the top. An event is triggered so that the implementing controller can reload data.
 
+![Extend edges](https://raw.github.com/FokkeZB/nl.fokkezb.pullToRefresh/master/docs/extend.png)
+
 ![Pull](https://raw.github.com/FokkeZB/nl.fokkezb.pullToRefresh/master/docs/pull.png)
 
 ![Release](https://raw.github.com/FokkeZB/nl.fokkezb.pullToRefresh/master/docs/release.png)
@@ -30,7 +32,7 @@ The widgets adds a *HeaderPullView* to a *TableView* that is shown when the user
 	
 	```javascript
 		"dependencies": {
-			"nl.fokkezb.pullToRefresh":"1.4"
+			"nl.fokkezb.pullToRefresh":"1.5"
 		}
 	```
 
@@ -67,6 +69,7 @@ The widget can be fully styled without touching the widget source. Use the follo
 | `#ptrArrow` | The arrow image. Use `WPATH('/images/white.png')` to use the white instead of the default grey image, or roll your own. |
 | `#ptrIndicator` | The *ActivityIndicator* showing during load |
 | `#ptrText` | The text |
+| `#ptrLine` | The line separating the widget and the table |
 
 ## Internationalization
 The widget texts can be overridden and translated via your `strings.xml` file, using the following names:
@@ -78,27 +81,32 @@ The widget texts can be overridden and translated via your `strings.xml` file, u
 | msgUpdating | Updating... |
 
 ## Options
-There are no required options to pass via TSS properties or XML attributes, apart from the `onRelase` attribute to bind your callback to the release-event.
+There are no required options to pass via TSS properties or XML attributes, apart from the `onRelease` attribute to bind your callback to the release-event.
 
 | Parameter | Type | Default |
 | --------- | ---- | ----------- |
 | msgPull | `string` | Overrides `Pull to refresh...` |
 | msgRelease | `string`  | Overrides `Release to refresh...` |
 | msgUpdating | `string` | Overrides `Updating...` |
+| top **(iOS)**| `number` | If the top of the table is covered by another view - e.g. when using `Ti.UI.Window.extendEges` - set this to the height of that view (`64` for both status and navigation bar) |
 
 ## Methods
 You can also manually show and hide the view or trigger the complete cycle of the widget. You could use this for the first load when your window opens.
 
-| Function   | Parameters | Usage
-| ---------- | ---------- |
-| setOptions | `object`   | Set any of the options
-| refresh    |            | Manually trigger pull + release 
-| show       |            | Show the *headerPullView*
-| hide       |            | Hide the *headerPullView*
-| dettach    |            | Remove the *headerPullView*
-| attach     |            | Re-add the *headerPullView* after removal
+| Function   | Parameters | Usage |
+| ---------- | ---------- | ----- |
+| setOptions | `object`   | Set any of the options |
+| refresh    |            | Manually trigger pull + release |
+| show       |            | Show the *headerPullView* |
+| hide       |            | Hide the *headerPullView* |
+| dettach    |            | Remove the *headerPullView* |
+| attach     |            | Re-add the *headerPullView* after removal |
 
 ## Changelog
+* 1.5
+  * New `top` option for compatibility with `Ti.UI.Window.extendEdges` on iOS7
+  * Arrow now properly hidden on Android, using opacity
+  * Default style updated to match Twitter on iOS7
 * 1.4
   * Now compatible with Android and other OS!
 * 1.3
@@ -130,9 +138,6 @@ You may obtain a copy of the License at
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-</pre>WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 </pre>
